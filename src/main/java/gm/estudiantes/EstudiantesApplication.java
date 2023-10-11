@@ -75,7 +75,67 @@ public class EstudiantesApplication implements CommandLineRunner {
 			case 3 -> {// Agregar estudiante
 				logger.info("Agregar Estudiante: " + nl);
 				logger.info("Nombre: ");
+				var nombre = consola.nextLine();
+				logger.info("Apelllido: ");
+				var apellido = consola.nextLine();
+				logger.info("Telefono: ");
+				var telefono = consola.nextLine();
+				logger.info("Email: ");
+				var email = consola.nextLine();
+				//Creamos el objeto estudiante sin el id. JPA sabrá que al insertar este objeto estudiante se le tendrá que añadir un ID
+				var estudiante = new Estudiante();
+				estudiante.setNombre(nombre);
+				estudiante.setApelllido(apellido);
+				estudiante.setTelefono(telefono);
+				estudiante.setEmail(email);
+				estudianteServicio.guardarEstudiante(estudiante);
+				logger.info("Estudiante agregado: " + estudiante + nl);
 			}
+			case 4 -> {// Modificar estudiante
+				logger.info("Modificar estudiante: " + nl);
+				logger.info("Id Estudiante a modificar: ");
+				var idEstudiante = Integer.parseInt(consola.nextLine());
+				// Buscamos el estudiante a modificar
+				Estudiante estudiante = estudianteServicio.buscarEstudiantePorId(idEstudiante);
+				if(estudiante != null){
+					logger.info("Nombre: ");
+					var nombre = consola.nextLine();
+					logger.info("Apelllido: ");
+					var apellido = consola.nextLine();
+					logger.info("Telefono: ");
+					var telefono = consola.nextLine();
+					logger.info("Email: ");
+					var email = consola.nextLine();
+					estudiante.setNombre(nombre);
+					estudiante.setApelllido(apellido);
+					estudiante.setTelefono(telefono);
+					estudiante.setEmail(email);
+					estudianteServicio.guardarEstudiante(estudiante);
+					logger.info("Estudiante modificado correctamente: " + estudiante + nl);
+				}
+				else
+					logger.info("Estudiante NO encontrado con id: " + nl);
+			}
+			case 5 -> {//Eliminar estudiante
+				logger.info("Eliminar Estudiante de la Base de Datos (!!!) " + nl);
+				logger.info("Introduzca Id Estudiante: ");
+				var idEstudiante = Integer.parseInt(consola.nextLine());
+				//Buscamos el id para comprobar si existe y si existe, eliminarlo.
+				var estudiante = estudianteServicio.buscarEstudiantePorId(idEstudiante);
+				if(estudiante != null){
+				estudianteServicio.eliminarEstudiante(estudiante);
+				logger.info("Estudiante eliminado: " + estudiante + nl);
+
+				}
+				else
+					logger.info("No se encontro estudiante con Id: " + estudiante + nl);
+
+			}
+			case 6 ->{//Opcion salir
+			logger.info("Hasta pronto!" + nl + nl);
+			salir = true;
+			}
+			default -> logger.info("Opcion NO reconocida: " + opcion +nl);
 		}//fin del switch
 		return salir;
 	}

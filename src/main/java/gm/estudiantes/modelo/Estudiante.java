@@ -24,7 +24,7 @@ public class Estudiante {
     private Integer idEstudiante;
 
     private String nombre;
-    private String apellido;
+    private String apelllido;
     private String telefono;
     private String email;
 
